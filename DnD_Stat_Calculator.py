@@ -1,8 +1,13 @@
 #Thomas Boehme
-#started: 3/14/2017
-#last edited: 3/14/2017
-#finished: 3/14/2017
+#started: 2017/3/14
+#last edited: 2019/8/4
+#finished: --
 #Quick stat calculator for D&D
+#Next goals:
+    #add level input
+    #calculate skills
+    #utilize a database to add racial modifiers
+    #allow the option to select editions between 2e, 3.5, 4e, and 5e
 
 import tkinter
 import tkinter.messagebox
@@ -18,8 +23,9 @@ class DnD_Calculator:
 
         #stats and scores frames and to hold the two columns
         self.columns = tkinter.Frame(self.mainWindow) #holds the columns
-        self.statsFrame = tkinter.Frame(self.columns)
-        self.scoreFrame = tkinter.Frame(self.columns)
+        self.statsFrame = tkinter.Frame(self.columns) #holds stat labels
+        self.scoreFrame = tkinter.Frame(self.columns) #holds score inputs
+        self.modsFrame = tkinter.Frame(self.columns) #holds modifiers
 
         #labels for stats column
         self.stats = tkinter.Label(self.statsFrame, text="STATS")
@@ -38,6 +44,15 @@ class DnD_Calculator:
         self.intEntry = tkinter.Entry(self.scoreFrame, width=10)
         self.wisEntry = tkinter.Entry(self.scoreFrame, width=10)
         self.chaEntry = tkinter.Entry(self.scoreFrame, width=10)
+
+        #label and modifiers for the modifier column
+        self.mods = tkinter.Label(self.modsFrame, text="MODIFIERS")
+        self.strMod = tkinter.Label(self.modsFrame, text="-")
+        self.conMod = tkinter.Label(self.modsFrame, text="-")
+        self.dexMod = tkinter.Label(self.modsFrame, text="-")
+        self.intMod = tkinter.Label(self.modsFrame, text="-")
+        self.wisMod = tkinter.Label(self.modsFrame, text="-")
+        self.chaMod = tkinter.Label(self.modsFrame, text="-")
 
         #calculate button
         self.calculate = tkinter.Button(self.mainWindow, text="Calculate",\
@@ -63,28 +78,31 @@ class DnD_Calculator:
         self.intEntry.pack()
         self.wisEntry.pack()
         self.chaEntry.pack()
+
+        self.mods.pack()   #packs modifier column
+        self.strMod.pack()
+        self.conMod.pack()
+        self.dexMod.pack()
+        self.intMod.pack()
+        self.wisMod.pack()
+        self.chaMod.pack()
         
+        #packs the columns
         self.statsFrame.pack(side="left")
+        self.modsFrame.pack(side="right")
         self.scoreFrame.pack(side="right")
         self.columns.pack()
         self.calculate.pack()
     #end pack_Columns method
 
     def display_Stats(self):
-        statsString = "Stats\t\tScore\t\tModifier\n"\
-                      "Stength\t\t"+self.strEntry.get()+"\t\t"+\
-                      self.get_Stat(self.strEntry.get()) + "\n" +\
-                      "Constitution\t"+self.conEntry.get()+"\t\t"+\
-                      self.get_Stat(self.conEntry.get()) + "\n" + \
-                      "Dexterity\t\t"+self.dexEntry.get()+"\t\t"+\
-                      self.get_Stat(self.dexEntry.get()) + "\n" + \
-                      "Intelligence\t"+self.intEntry.get()+"\t\t"+\
-                      self.get_Stat(self.intEntry.get()) + "\n" + \
-                      "Wisdom\t\t"+self.wisEntry.get()+"\t\t"+\
-                      self.get_Stat(self.wisEntry.get()) + "\n" + \
-                      "Charisma\t\t"+self.chaEntry.get()+"\t\t"+\
-                      self.get_Stat(self.chaEntry.get())
-                      
+        #modifier column text change
+        self.strMod.config(text=self.get_Stat(self.strEntry.get())+"")
+        self.conMod.config(text=self.get_Stat(self.conEntry.get())+"")
+        self.dexMod.config(text=self.get_Stat(self.dexEntry.get())+"")
+        self.intMod.config(text=self.get_Stat(self.intEntry.get())+"")
+        self.wisMod.config(text=self.get_Stat(self.wisEntry.get())+"")
+        self.chaMod.config(text=self.get_Stat(self.chaEntry.get())+"")
 
         tkinter.messagebox.showinfo("Response", statsString)
     #end display_Stats method
@@ -101,3 +119,4 @@ class DnD_Calculator:
             return "not a valid input"
     #end get_Stat method
 main()  #start program
+
